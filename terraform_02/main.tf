@@ -75,11 +75,10 @@ resource "aws_instance" "my_instance" {
   user_data              = file("install_nginx.sh")
 
   root_block_device {
-    volume_size = each.value.volume_size
+    volume_size = each.value.volume_size   # var.env=="dev" ? 10 : 20
   }
 
   tags = {
     Name = each.key
   }
 }
-
