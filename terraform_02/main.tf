@@ -82,3 +82,9 @@ resource "aws_instance" "my_instance" {
     Name = each.key
   }
 }
+
+#  import existing ec2 instance.  docks of terra import affter this improve with the ami, instance_type,tag
+# resource "aws_instance" "existing_instance" {
+#   ami = "unknown"
+#   instance_type = "unknown"
+# }
