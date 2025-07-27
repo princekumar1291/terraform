@@ -151,7 +151,7 @@ resource "aws_instance" "web" {
   vpc_security_group_ids = [aws_security_group.my_sg.id]
   iam_instance_profile   = aws_iam_instance_profile.ec2_profile.name
   key_name               = aws_key_pair.my_key.key_name
-  user_data = file("install_nginx.sh")
+  user_data = file("install_nginx.sh")   # make it executable chmod +x install_nginx.sh
   tags = {
     Name = "my-server"
   }
