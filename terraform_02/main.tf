@@ -66,7 +66,7 @@ resource "aws_instance" "my_instance" {
       volume_size   = 12
     }
   }
-
+  depends_on = [ aws_key_pair.my_key, aws_security_group.my_security_group ]
   ami                    = var.ec2_ami_id
   instance_type          = each.value.instance_type
   key_name               = aws_key_pair.my_key.key_name
