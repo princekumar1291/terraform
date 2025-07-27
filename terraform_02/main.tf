@@ -56,19 +56,30 @@ resource "aws_security_group" "my_security_group" {
 
 # EC2 Instance
 resource "aws_instance" "my_instance" {
-  count = 2
+  for_each = {
+    "ubuntu" = {
+      instance_type = "t2.micro"
+      volume_size   = 8
+    }
+    "windows" = {
+      instance_type = "t2.medium"
+      volume_size   = 12
+    }
+  }
+
   ami                    = var.ec2_ami_id
-  instance_type          = var.ec2_instance_type
+  instance_type          = each.value.instance_type
   key_name               = aws_key_pair.my_key.key_name
   subnet_id              = aws_default_subnet.default_a.id
   vpc_security_group_ids = [aws_security_group.my_security_group.id]
-  user_data = file("install_nginx.sh")
+  user_data              = file("install_nginx.sh")
 
   root_block_device {
-    volume_size = var.ec2_root_storage_size
+    volume_size = each.value.volume_size
   }
 
   tags = {
-    Name = "MyInstance"
+    Name = each.key
   }
 }
+
